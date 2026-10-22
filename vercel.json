@@ -4,6 +4,7 @@
   "installCommand": "",
   "buildCommand": "node build.cjs",
   "outputDirectory": "dist",
+  "trailingSlash": true,
   "headers": [
     {
       "source": "/(.*)",

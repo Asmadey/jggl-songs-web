@@ -12,9 +12,10 @@ for (const name of ['styles.css', 'app.js']) fs.copyFileSync(path.join(__dirname
 // public/ (fonts, logo, favicons, manifest) is copied as-is to the site root.
 fs.cpSync(path.join(__dirname, 'public'), dist, { recursive: true });
 
-// Drop stale experiment folders so a removed hypothesis disappears from dist.
+// Drop stale experiment folders so a removed hypothesis disappears from dist. Folders that come from public/ (assets, trends) stay.
+const fromPublic = new Set(fs.readdirSync(path.join(__dirname, 'public')));
 for (const entry of fs.readdirSync(dist, { withFileTypes: true })) {
-  if (entry.isDirectory() && entry.name !== 'assets' && !experiments.some(e => e.slug === entry.name)) fs.rmSync(path.join(dist, entry.name), { recursive: true });
+  if (entry.isDirectory() && !fromPublic.has(entry.name) && !experiments.some(e => e.slug === entry.name)) fs.rmSync(path.join(dist, entry.name), { recursive: true });
 }
 
 for (const exp of experiments) {

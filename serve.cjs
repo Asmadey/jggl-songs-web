@@ -7,6 +7,7 @@ http.createServer((req, res) => {
   if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405); res.end(); return; }
   try {
     let pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+    if (!pathname.endsWith('/') && !path.extname(pathname)) { res.writeHead(308, { Location: pathname + '/' }); res.end(); return; } // same as Vercel trailingSlash
     if (pathname.endsWith('/')) pathname += 'index.html';
     const target = fs.realpathSync(path.resolve(root, '.' + pathname));
     if (!target.startsWith(root + path.sep) || !fs.statSync(target).isFile()) throw new Error('Not found');

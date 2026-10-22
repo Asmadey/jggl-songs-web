@@ -223,7 +223,8 @@ function renderHub(experiments, cfg) {
     hypothesis: C.L('Hypothesis.', 'Гипотеза.'),
     audience: C.L('Audience.', 'Аудитория.'),
     metric: C.L('Metric.', 'Метрика.'),
-    open: C.L('Open', 'Открыть')
+    open: C.L('Open', 'Открыть'),
+    trends: C.L('JGGL Trends: video trend catalog (separate page)', 'JGGL Trends: каталог видеотрендов (отдельная страница)')
   };
   const rows = experiments.map(e => `
     <article class="hub-card">
@@ -236,6 +237,7 @@ function renderHub(experiments, cfg) {
     </article>`).join('');
   const langSwitch = multi ? `<div class="lang" role="group" aria-label="Language">${langs.map(l => `<button type="button" data-lang="${l}" aria-pressed="${l === cfg.defaultLang}">${l.toUpperCase()}</button>`).join('')}</div>` : '';
   const head = `<div class="hub-top"><div class="eyebrow"><span class="orange-line"></span><span${a(lbl.eyebrow)}>${lbl.eyebrow.en}</span></div>${langSwitch}</div><h1${a(C.ui.hubTitle)}>${C.ui.hubTitle.en}</h1>`;
+  const foot = `<p class="hub-foot"><a href="trends/"${a(lbl.trends)}>${lbl.trends.en}</a></p>`;
   const script = multi ? `<script>(() => {
   const RU = ${jsonForScript(ru)}, LANGS = ${jsonForScript(langs)}, DEF = ${jsonForScript(cfg.defaultLang)};
   const get = k => { try { return localStorage.getItem(k); } catch { return null; } };
@@ -255,7 +257,7 @@ function renderHub(experiments, cfg) {
   return `<!doctype html>
 <html lang="${cfg.defaultLang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
 <title>JGGL Songs · hypotheses</title>${iconLinks}<link rel="stylesheet" href="styles.css"></head>
-<body class="hub"><main class="wrap">${head}${rows}</main>${script}</body></html>
+<body class="hub"><main class="wrap">${head}${rows}${foot}</main>${script}</body></html>
 `;
 }
 

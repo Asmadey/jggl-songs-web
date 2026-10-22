@@ -168,6 +168,7 @@ blockquote.instr{font-style:italic;color:var(--muted)}
 .hub-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .hub h1{margin:16px 0 28px;font-size:40px;letter-spacing:-1px}
 .hub-card{border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:18px;background:var(--surface)}
+.hub-foot{margin:28px 0 0;font-size:17px}.hub-foot a{color:#f0a070;text-decoration:underline;text-underline-offset:4px}
 .hub-card h2{font-size:24px;margin:0}.hub-card a:hover{color:var(--orange)}
 .hub-card p{color:var(--soft);font-size:16px;margin:8px 0}.hub-card .hub-h{font-size:20px;color:#fff}
 
