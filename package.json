@@ -1,0 +1,12 @@
+{
+  "name": "jggl-songs-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Landing pages for testing JGGL song-making hypotheses",
+  "scripts": {
+    "build": "node build.cjs",
+    "start": "node serve.cjs",
+    "icons": "sh scripts/make-icons.sh"
+  },
+  "engines": { "node": ">=20" }
+}
