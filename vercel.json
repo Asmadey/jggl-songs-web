@@ -4,9 +4,6 @@
   "installCommand": "",
   "buildCommand": "node build.cjs",
   "outputDirectory": "dist",
-  "redirects": [
-    { "source": "/", "destination": "/your-voice/", "permanent": false }
-  ],
   "headers": [
     {
       "source": "/(.*)",
