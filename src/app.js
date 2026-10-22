@@ -76,7 +76,6 @@
 
   const ctaEvent = el => {
     const id = el.dataset.cta;
-    if (id.startsWith('pricing_')) return ['pricing_click', { tier: el.dataset.tier }];
     if (id === 'song_make') return ['make_like_this_click', { song: current && current.id }];
     return [id + '_cta_click', id === 'hero' ? { pick: heroPick } : {}];
   };
@@ -264,27 +263,6 @@
       setTimeout(() => location.assign(appHref('hero', null)), 1100);
     });
   }
-
-  // ---------- reserve (fake door) ----------
-  const rd = $('#reserve-dialog'), rform = $('#reserve-form'), rmsg = $('#rd-msg');
-  let tier = null;
-  $$('[data-reserve]').forEach(b => b.addEventListener('click', () => {
-    tier = b.dataset.reserve;
-    track('pricing_click', { tier });
-    track('reserve_open', { tier });
-    rmsg.hidden = true;
-    rd.showModal();
-    $('#rd-email').focus();
-  }));
-  rform.addEventListener('submit', e => {
-    e.preventDefault();
-    const email = $('#rd-email').value.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { rmsg.textContent = tr(J.ui.reserveBad); rmsg.hidden = false; return; }
-    track('reserve_submit', { tier, email }, true);
-    rmsg.textContent = tr(J.ui.reserveThanks) + (J.posthog.key ? '' : ' ' + tr(J.ui.reserveDemo));
-    rmsg.hidden = false;
-    rform.reset();
-  });
 
   // ---------- misc events ----------
   document.addEventListener('toggle', e => { if (e.target.matches && e.target.matches('details[data-faq]') && e.target.open) track('faq_open', { q: e.target.dataset.faq }); }, true);

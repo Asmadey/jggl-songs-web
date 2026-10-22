@@ -26,4 +26,4 @@ if (cfg.buildHub) fs.writeFileSync(hub, renderHub(experiments, cfg));
 else fs.rmSync(hub, { force: true });
 
 console.log('Built', experiments.length, 'pages:', experiments.map(e => e.slug).join(', '), '| languages:', cfg.languages.join('/'));
-if (!cfg.posthog.key) console.warn('WARNING: POSTHOG_KEY is not set. Events are logged to the console only and reserve-form emails are NOT saved.');
+if (!cfg.posthog.key) console.warn('WARNING: POSTHOG_KEY is not set. Events are logged to the console only and are NOT sent to PostHog.');

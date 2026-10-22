@@ -40,7 +40,7 @@ npm run icons                        # пересобрать иконки вк�
 
 ## События (PostHog)
 
-`landing_view`, `hero_cta_click`, `lyrics_paste` (только число символов), `style_select`, `filter_select`, `song_open`, `sample_play`, `make_like_this_click`, `pricing_click`, `reserve_open`, `reserve_submit`, `faq_open`, `scroll_50`, `scroll_90`, `lang_switch`, `header_cta_click`, `final_cta_click`. К каждому добавляются `experiment`, `lang` и входящие `utm_*`.
+`landing_view`, `hero_cta_click`, `lyrics_paste` (только число символов), `style_select`, `filter_select`, `song_open`, `sample_play`, `make_like_this_click`, `faq_open`, `scroll_50`, `scroll_90`, `lang_switch`, `header_cta_click`, `final_cta_click`. К каждому добавляются `experiment`, `lang` и входящие `utm_*`.
 
 ## Ссылка в приложение
 
@@ -49,6 +49,5 @@ npm run icons                        # пересобрать иконки вк�
 ## Что ещё заглушка
 
 - Песни-примеры: звук синтезируется в браузере (`prof` в `src/app.js`). Настоящие файлы подключаются полем `audio` в `src/content.cjs` (пока не реализовано в плеере).
-- Форма резервирования тарифа: e-mail уходит событием `reserve_submit` в PostHog. Без ключа ничего не сохраняется, и страница об этом говорит.
 - Список утверждений о продукте, которые нужно подтвердить до платного трафика: `CLAIMS.md`.
 - `buildHub: true` собирает внутреннюю страницу со списком гипотез. Перед публичным деплоем выключить.

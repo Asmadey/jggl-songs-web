@@ -3,8 +3,7 @@ const L = (en, ru) => ({ en, ru });
 
 const nav = [
   { href: '#songs', label: L('Hear songs', 'Послушать песни') },
-  { href: '#how', label: L('How it works', 'Как это работает') },
-  { href: '#pricing', label: L('Pricing', 'Тарифы') }
+  { href: '#how', label: L('How it works', 'Как это работает') }
 ];
 
 const common = {
@@ -126,29 +125,7 @@ const steps = [
   { title: L('Listen, tweak, share', 'Послушай, поправь, поделись'), text: L('Change a line, pick another style, send it to family.', 'Поменяй строчку, выбери другой стиль, отправь семье.') }
 ];
 
-const pricing = [
-  {
-    id: 'free', name: L('Free', 'Бесплатно'), price: L('$0', '$0'),
-    note: L('Try it first', 'Попробуй сначала'),
-    items: [L('First song free', 'Первая песня бесплатно'), L('1 download a day', '1 скачивание в день')],
-    cta: L('Hear my song', 'Услышать свою песню'), kind: 'app'
-  },
-  {
-    id: 'creator', name: L('Creator', 'Creator'), price: L('$12/mo', '$12/мес'),
-    note: L('Founding price', 'Цена для первых'),
-    items: [L('About 90 songs a month', 'Около 90 песен в месяц'), L('Your own voice', 'Твой собственный голос'), L('Unlimited downloads', 'Скачивания без ограничений')],
-    cta: L('Reserve founding price', 'Закрепить цену для первых'), kind: 'reserve', featured: true
-  },
-  {
-    id: 'pro', name: L('Pro', 'Pro'), price: L('$29/mo', '$29/мес'),
-    note: L('For serious writers', 'Для серьёзных авторов'),
-    items: [L('Separate stems', 'Отдельные дорожки (стемы)'), L('Expert mode', 'Экспертный режим'), L('Everything in Creator', 'Всё из Creator')],
-    cta: L('Reserve founding price', 'Закрепить цену для первых'), kind: 'reserve'
-  }
-];
-
 const trust = [
-  { title: L('Prices in dollars', 'Цены в долларах'), text: L('Cancel anytime.', 'Отмена в любой момент.') },
   { title: L('Real people answer', 'Отвечают живые люди'), text: L('Write to support and a person replies.', 'Напиши в поддержку, и тебе ответит человек.') },
   { title: L('Your voice stays yours', 'Твой голос остаётся твоим'), text: L('Used only for your songs. Delete it anytime.', 'Используется только для твоих песен. Удали в любой момент.') }
 ];
@@ -157,7 +134,7 @@ const faq = [
   { q: L('Do I need music skills?', 'Нужны ли музыкальные навыки?'), a: L('No. If you can write a few lines or tell a story, you can make a song.', 'Нет. Если можешь написать пару строк или рассказать историю, ты сможешь сделать песню.') },
   { q: L('Will it really sound like me?', 'Правда ли это будет звучать как я?'), a: L('You record 30 seconds of your voice and we tune it to sing your song. Listen to a sample before you decide anything.', 'Ты записываешь 30 секунд голоса, и мы настраиваем его, чтобы он пел твою песню. Послушай образец, прежде чем что-то решать.') },
   { q: L('Is it okay to share at church or on Facebook?', 'Можно ли делиться этим в церкви или в Facebook?'), a: L('Sharing with family, church and friends needs nothing extra. If you plan to release on streaming services, check each distributor\'s policy on AI-made music first, because the rules differ and change.', 'Делиться с семьёй, церковью и друзьями можно без дополнительных шагов. Если планируешь выпуск на стриминговых сервисах, сначала проверь правила дистрибьютора про музыку с ИИ: они разные и меняются.') },
-  { q: L('What does it cost?', 'Сколько это стоит?'), a: L('Your first song is free. Creator is $12 a month at the founding price, Pro is $29. Cancel anytime.', 'Первая песня бесплатна. Creator — $12 в месяц по цене для первых, Pro — $29. Отмена в любой момент.') },
+  { q: L('What does it cost?', 'Сколько это стоит?'), a: L('Your first song is free.', 'Первая песня бесплатна.') },
   { q: L('Is my voice safe?', 'В безопасности ли мой голос?'), a: L('Your voice is used only to make your songs, and you can delete it anytime.', 'Твой голос используется только для твоих песен, и ты можешь удалить его в любой момент.') },
   { q: L('Can I change the words later?', 'Можно ли потом поменять слова?'), a: L('Yes. Edit a line and we keep the tune, so you are not starting over.', 'Да. Поменяй строчку, и мелодия останется, начинать с нуля не придётся.') }
 ];
@@ -174,21 +151,12 @@ const ui = {
   howTitle: L('Three steps. <span>Your song is ready.</span>', 'Три шага. <span>Песня готова.</span>'),
   getEyebrow: L('WHAT YOU GET', 'ЧТО ТЫ ПОЛУЧАЕШЬ'),
   getTitle: L('Everything to finish and share it.', 'Всё, чтобы закончить песню и поделиться ею.'),
-  pricingEyebrow: L('PRICING', 'ТАРИФЫ'),
-  pricingTitle: L('Start free. Pay only if you love it.', 'Начни бесплатно. Плати, только если понравится.'),
   trustEyebrow: L('YOU CAN RELY ON US', 'НА НАС МОЖНО ПОЛОЖИТЬСЯ'),
   faqEyebrow: L('QUESTIONS', 'ВОПРОСЫ'),
   faqTitle: L('Before you start.', 'Прежде чем начать.'),
-  reserveTitle: L('Creator opens in a few weeks', 'Creator откроется через несколько недель'),
-  reserveText: L('Leave your email and lock the founding price. We will only write to you about this.', 'Оставь почту, и мы закрепим цену для первых. Мы напишем только об этом.'),
-  reserveEmail: L('Your email', 'Твоя почта'),
-  reserveSubmit: L('Lock my price', 'Закрепить цену'),
-  reserveThanks: L("You're on the list. We'll email you when it opens.", 'Ты в списке. Мы напишем, когда тариф откроется.'),
-  reserveBad: L('Please enter a valid email.', 'Введи корректную почту.'),
-  reserveDemo: L('Demo mode: nothing was saved because analytics is not connected.', 'Демо-режим: данные не сохранены, аналитика не подключена.'),
   verseCopied: L('We copied your verse. Paste it on the next screen.', 'Мы скопировали твой куплет. Вставь его на следующем экране.'),
   pickOne: L('Pick one', 'Выбери'),
   hubTitle: L('Songs landing: hypotheses', 'Лендинг для песен: гипотезы')
 };
 
-module.exports = { L, nav, common, songs, chips, pains, benefits, steps, pricing, trust, faq, ui };
+module.exports = { L, nav, common, songs, chips, pains, benefits, steps, trust, faq, ui };

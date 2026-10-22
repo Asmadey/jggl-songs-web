@@ -95,16 +95,6 @@ function renderExperiment(exp, cfg) {
   const steps = exp.steps || C.steps;
   const stepHtml = steps.map((s, k) => `<div class="how-step"><span class="step-number">0${k + 1}</span><h3${a(s.title)}>${esc(s.title.en)}</h3><p${a(s.text)}>${esc(s.text.en)}</p></div>`).join('');
   const benefitHtml = C.benefits.map(b => `<li${a(b)}>${esc(b.en)}</li>`).join('');
-  const priceHtml = C.pricing.map(t => `
-      <div class="tier${t.featured ? ' featured' : ''}">
-        <h3${a(t.name)}>${t.name.en}</h3>
-        <p class="price"${a(t.price)}>${t.price.en}</p>
-        <p class="tier-note"${a(t.note)}>${t.note.en}</p>
-        <ul>${t.items.map(i => `<li${a(i)}>${esc(i.en)}</li>`).join('')}</ul>
-        ${t.kind === 'app'
-          ? `<a class="button ${t.featured ? 'fire' : 'outline'}" href="${cfg.appUrl}" data-cta="pricing_${t.id}" data-tier="${t.id}"><span${a(t.cta)}>${t.cta.en}</span></a>`
-          : `<button type="button" class="button ${t.featured ? 'fire' : 'outline'}" data-reserve="${t.id}"><span${a(t.cta)}>${t.cta.en}</span></button>`}
-      </div>`).join('');
   const trustHtml = C.trust.map(t => `<div class="trust-item"><h3${a(t.title)}>${esc(t.title.en)}</h3><p${a(t.text)}>${esc(t.text.en)}</p></div>`).join('');
   const faqHtml = C.faq.map((f, k) => `<details data-faq="${k + 1}"><summary${a(f.q)}>${esc(f.q.en)}</summary><p${a(f.a)}>${esc(f.a.en)}</p></details>`).join('');
   const chipHtml = C.chips.map(c => `<button type="button" class="filter" data-filter="${c.id}" aria-pressed="${c.id === exp.catalogDefault}"${a(c.label)}>${c.label.en}</button>`).join('');
@@ -116,7 +106,7 @@ function renderExperiment(exp, cfg) {
     catalogDefault: exp.catalogDefault,
     songs: C.songs.map(s => ({ id: s.id, genre: s.genre, hue: s.hue, instrumental: !!s.instrumental, title: s.title, genreLabel: s.genreLabel, lyric: s.lyric })),
     ui: {
-      verseCopied: C.ui.verseCopied, reserveBad: C.ui.reserveBad, reserveThanks: C.ui.reserveThanks, reserveDemo: C.ui.reserveDemo,
+      verseCopied: C.ui.verseCopied,
       play: C.common.play, pause: C.common.pause, examplePlaceholder: C.common.examplePlaceholder, placeholderNote: C.common.placeholderNote, instrumental: C.common.instrumental
     },
     i18n: null
@@ -184,12 +174,6 @@ function renderExperiment(exp, cfg) {
       <ul class="benefits">${benefitHtml}</ul>
     </section>
 
-    <section class="pricing wrap" id="pricing" aria-labelledby="pricing-title">
-      <div class="eyebrow"><span${a(C.ui.pricingEyebrow)}>${C.ui.pricingEyebrow.en}</span></div>
-      <h2 id="pricing-title"${a(C.ui.pricingTitle)}>${C.ui.pricingTitle.en}</h2>
-      <div class="tiers">${priceHtml}</div>
-    </section>
-
     <section class="trust wrap" aria-labelledby="trust-title">
       <div class="eyebrow"><span${a(C.ui.trustEyebrow)}>${C.ui.trustEyebrow.en}</span></div>
       <h2 id="trust-title" class="sr-only"${a(C.ui.trustEyebrow)}>${C.ui.trustEyebrow.en}</h2>
@@ -222,19 +206,6 @@ function renderExperiment(exp, cfg) {
     </div>
   </dialog>
 
-  <dialog id="reserve-dialog" class="modal reserve-dialog" aria-labelledby="rd-title">
-    <button class="close" data-close type="button" aria-label="Close">×</button>
-    <div class="rd-body">
-      <h2 id="rd-title"${a(C.ui.reserveTitle)}>${C.ui.reserveTitle.en}</h2>
-      <p${a(C.ui.reserveText)}>${C.ui.reserveText.en}</p>
-      <form id="reserve-form" novalidate>
-        <label for="rd-email"${a(C.ui.reserveEmail)}>${C.ui.reserveEmail.en}</label>
-        <input id="rd-email" type="email" autocomplete="email" inputmode="email" required>
-        <button class="button fire" type="submit"><span${a(C.ui.reserveSubmit)}>${C.ui.reserveSubmit.en}</span></button>
-        <p class="rd-msg" id="rd-msg" role="status" hidden></p>
-      </form>
-    </div>
-  </dialog>
 </body>
 </html>
 `;
