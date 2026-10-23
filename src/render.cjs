@@ -180,7 +180,7 @@ function renderExperiment(exp, cfg) {
   const stepArts = [arts.write, arts.record, arts.share];
   const howVisualHtml = `<section class="how how-visual wrap" id="how" aria-labelledby="how-title">
       <header class="how-head"><div class="eyebrow"><span class="orange-line"></span><span${a(C.ui.howEyebrow)}>${C.ui.howEyebrow.en}</span></div><h2 id="how-title"${a(C.ui.howTitle)}>${C.ui.howTitle.en}</h2></header>
-      <ol class="how-steps">${steps.map((st, k) => `${k ? `<li class="how-link" aria-hidden="true">${arts.arrow}</li>` : ''}<li class="how-card" style="--i:${k}"><div class="how-art">${stepArts[k]}<span class="step-badge">0${k + 1}</span></div><h3${a(st.title)}>${esc(st.title.en)}</h3><p${a(st.text)}>${esc(st.text.en)}</p></li>`).join('')}</ol>
+      <ol class="how-steps">${steps.map((st, k) => `<li class="how-card" style="--i:${k}"><div class="how-art">${stepArts[k]}<span class="step-badge">0${k + 1}</span></div><h3${a(st.title)}>${esc(st.title.en)}</h3><p${a(st.text)}>${esc(st.text.en)}</p>${k < steps.length - 1 ? `<span class="how-link" aria-hidden="true">${arts.arrow}</span>` : ''}</li>`).join('')}</ol>
       <div class="how-cta"><a class="button fire" href="${cfg.appUrl}" data-cta="how"><span${a(C.common.ctaDefault)}>${C.common.ctaDefault.en}</span>${spark}</a></div>
     </section>`;
   const benefitHtml = C.benefits.map(b => `<li${a(b)}>${esc(b.en)}</li>`).join('');
