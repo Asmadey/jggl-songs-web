@@ -101,7 +101,7 @@ const features = [
   },
   {
     id: 'cover', img: '/img/features/cover.webp',
-    title: L('Cover art for every track', 'Обложка к каждому треку'),
+    title: L('Artwork Generation', 'Генерация обложки'),
     text: L('Every track you create comes with its own cover, ready to share.', 'К каждому созданному треку ты сразу получаешь обложку, и им можно делиться.')
   },
   {
