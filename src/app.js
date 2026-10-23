@@ -526,12 +526,11 @@
     onLang = (prev => () => { prev(); run(); })(onLang);
   }
 
-  // ---------- "how it works": reveal the cards and start their animations when the block scrolls into view ----------
+  // ---------- "how it works": count the view once (the only animation there is the travelling dot, pure CSS) ----------
   const how = $('.how-visual');
   if (how) {
-    how.classList.add('armed');
     const io = new IntersectionObserver(entries => {
-      if (entries.some(e => e.isIntersecting)) { how.classList.add('in'); io.disconnect(); track('how_view'); }
+      if (entries.some(e => e.isIntersecting)) { io.disconnect(); track('how_view'); }
     }, { threshold: 0.2 });
     io.observe(how);
   }
