@@ -46,8 +46,18 @@ const heartIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-
 const arrowIcon = d => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const seedOf = id => [...id].reduce((s, ch) => s + ch.charCodeAt(0), 0) % 97;
 
+// On a single-language page the {en, ru} pairs are reduced to {en} so no Russian text ships to the browser.
+const keepLangs = (v, langs) => {
+  if (Array.isArray(v)) return v.map(x => keepLangs(x, langs));
+  if (v && typeof v === 'object') {
+    if ('en' in v && 'ru' in v) return Object.fromEntries(langs.map(l => [l, v[l]]));
+    return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, keepLangs(x, langs)]));
+  }
+  return v;
+};
+
 function renderExperiment(exp, cfg) {
-  const langs = cfg.languages;
+  const langs = exp.languages || cfg.languages;
   const multi = langs.length > 1;
   const { a, attr, ru } = i18n(langs);
   const h = exp.hero;
@@ -158,7 +168,7 @@ function renderExperiment(exp, cfg) {
   const langSwitch = multi ? `<div class="lang" role="group" aria-label="Language"${attr('aria-label', C.common.langLabel)}>${langs.map(l => `<button type="button" data-lang="${l}" aria-pressed="${l === cfg.defaultLang}">${l.toUpperCase()}</button>`).join('')}</div>` : '';
 
   const clientConfig = {
-    slug: exp.slug, appUrl: cfg.appUrl, langs, defaultLang: cfg.defaultLang, posthog: cfg.posthog,
+    slug: exp.slug, appUrl: cfg.appUrl, langs, defaultLang: langs.includes(cfg.defaultLang) ? cfg.defaultLang : langs[0], posthog: cfg.posthog,
     catalogDefault: exp.catalogDefault,
     catalog: exp.catalog || 'placeholders',
     rotate: h.rotate || null,
@@ -195,7 +205,7 @@ function renderExperiment(exp, cfg) {
     <div class="top-actions">${langSwitch}<a class="button outline header-cta" href="${cfg.appUrl}" data-cta="header"><span${a(C.common.ctaDefault)}>${C.common.ctaDefault.en}</span></a></div>
   </header>
   <main>
-    <section class="hero wrap" aria-labelledby="hero-title">
+    <section class="hero wrap${tracksMode ? ' stage-mid' : ''}" aria-labelledby="hero-title">
       <div class="hero-copy">
         <div class="eyebrow"><span class="orange-line"></span><span${a(h.eyebrow)}>${h.eyebrow.en}</span></div>
         <h1 id="hero-title"${h.rotate ? ' class="rotating"' : ''}${a(h.title)}>${h.title.en}</h1>
@@ -292,7 +302,8 @@ function renderExperiment(exp, cfg) {
 `;
   // The i18n table is only complete once every data-i has been registered, so inject the config last.
   clientConfig.i18n = { ru };
-  return page.replace('__CLIENT_CONFIG__', () => jsonForScript(clientConfig));
+  const shipped = multi ? clientConfig : keepLangs(clientConfig, langs);
+  return page.replace('__CLIENT_CONFIG__', () => jsonForScript(shipped));
 }
 
 function renderHub(experiments, cfg) {

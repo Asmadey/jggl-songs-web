@@ -316,6 +316,7 @@
       const c = ui.eq, g = c.getContext('2d');
       const dpr = window.devicePixelRatio || 1;
       const w = c.clientWidth, h = c.clientHeight;
+      if (w < 80 || h < 8 || !cur) return; // dialog is closed or not laid out yet
       if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
       g.clearRect(0, 0, w, h);
@@ -342,7 +343,7 @@
         grad.addColorStop(1, played ? '#da3e14' : '#3d3029');
         g.fillStyle = grad;
         g.beginPath();
-        g.roundRect ? g.roundRect(x, y, bw, bh, Math.min(bw / 2, 3)) : g.rect(x, y, bw, bh);
+        g.roundRect ? g.roundRect(x, y, bw, bh, Math.max(0, Math.min(bw / 2, 3))) : g.rect(x, y, bw, bh);
         g.fill();
       }
     };

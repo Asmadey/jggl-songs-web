@@ -5,6 +5,8 @@ const { L } = require('./content.cjs');
 module.exports = [
   {
     slug: 'your-voice',
+    // English only on this page: no RU strings, no language switcher.
+    languages: ['en'],
     hypothesis: L(
       'When I have words or an occasion (family, faith, a memory), I want to hear a finished song, ideally in my own voice, and show it to people close to me, so I feel heard.',
       'Когда у меня есть слова или повод (семья, вера, воспоминание), я хочу услышать готовую песню, лучше своим голосом, и показать её близким, чтобы почувствовать, что меня услышали.'),
@@ -20,7 +22,8 @@ module.exports = [
       versePlaceholder: L('Paste a verse here, or just start typing…', 'Вставь куплет сюда или просто начни писать…'),
       cta: L('Hear my song', 'Услышать свою песню'),
       // 'genre:index' picks a real track (data/tracks.json); the cards are square covers.
-      cards: ['pop:0', 'jazz:0', 'rock:0'],
+      // left, centre (the big one), right
+      cards: ['pop:0', 'rock:0', 'jazz:0'],
       // Typed headline: only the highlighted part is deleted and retyped, like on suno.com.
       rotate: [
         L('your own voice', 'твоим голосом'),
