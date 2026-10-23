@@ -19,7 +19,7 @@ module.exports = [
              'Принеси слова, которые носишь годами. Запиши 30 секунд голоса, и JGGL превратит их в готовую песню.'),
       mode: 'verse',
       verseLabel: L('Paste a verse or a few lines', 'Вставь куплет или пару строк'),
-      versePlaceholder: L('Paste a verse here, or just start typing…', 'Вставь куплет сюда или просто начни писать…'),
+      versePlaceholder: L('Paste a verse here…', 'Вставь куплет сюда…'),
       cta: L('Hear my song', 'Услышать свою песню'),
       // 'genre:index' picks a real track (data/tracks.json); the cards are square covers.
       // left, centre (the big one), right
