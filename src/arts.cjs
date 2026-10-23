@@ -25,7 +25,7 @@ const record = `<svg class="art art-record" viewBox="0 0 240 160" aria-hidden="t
   <circle class="rec" cx="120" cy="76" r="28" fill="url(#recg)"/>
   <rect class="mic" x="115" y="62" width="10" height="18" rx="5"/>
   <path class="mic-h" d="M109.500 76a10.500 10.500 0 0 0 21 0M120 87v6"/>
-  <g class="recl"><circle class="dot" cx="98" cy="141" r="4"/><text x="108" y="145.500">REC 0:30</text></g>
+  <g class="recl" transform="translate(-10 0)"><circle class="dot" cx="98" cy="141" r="4"/><text x="108" y="145.500">REC 0:30</text></g>
 </svg>`;
 
 // Step 3: a finished track with a live equalizer, then it is sent to family.
