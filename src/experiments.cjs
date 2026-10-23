@@ -34,6 +34,7 @@ module.exports = [
       ],
       sticker: L('Sung in your own voice', 'Поёт твой голос'),
       stickerIcon: 'sing',
+      hideCaption: true, // no "First song free / No music skills needed" next to the button
       hideBottom: true, // no genre line with the play icon under the form on this page
       footnote: null
     },

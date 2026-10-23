@@ -131,7 +131,7 @@ function renderExperiment(exp, cfg) {
       </div>`;
   const featureHtml = C.features.map(f => `<article class="feature-card"><img src="${f.img}" width="720" height="720" loading="lazy" decoding="async" alt=""><h3${a(f.title)}>${esc(f.title.en)}</h3><p${a(f.text)}>${esc(f.text.en)}</p></article>`).join('');
 
-  const caption = `<div class="free-caption"><span${a(C.common.caption)}>${C.common.caption.en}</span><small${a(C.common.captionSub)}>${C.common.captionSub.en}</small></div>`;
+  const caption = h.hideCaption ? '' : `<div class="free-caption"><span${a(C.common.caption)}>${C.common.caption.en}</span><small${a(C.common.captionSub)}>${C.common.captionSub.en}</small></div>`;
 
   let heroAction;
   if (h.mode === 'verse') {
