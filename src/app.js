@@ -24,14 +24,16 @@
     const [name, id] = el.dataset.ia.split(':');
     return { el, name, id, en: el.getAttribute(name) };
   });
+  let onLang = () => {};
   const applyLang = () => {
     document.documentElement.lang = lang;
     const ru = J.i18n.ru;
     textEls.forEach(({ el, en, id }) => { el.innerHTML = lang === 'en' || ru[id] === undefined ? en : ru[id]; });
     attrEls.forEach(({ el, name, id, en }) => el.setAttribute(name, lang === 'en' || ru[id] === undefined ? en : ru[id]));
     $$('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
-    if (songDialog.open && current) fillSong(current);
+    if (songDialog && songDialog.open && current) fillSong(current);
     syncPlayUi();
+    onLang();
   };
 
   // ---------- analytics ----------
@@ -201,8 +203,10 @@
     btn.setAttribute('aria-label', tr(isPlaying ? J.ui.pause : J.ui.play));
     $$('.song-card').forEach(c => c.classList.toggle('playing', c.dataset.id === playing));
   };
-  $('#sd-play').addEventListener('click', () => { if (playing === current.id) stopAudio(); else play(current.id, 'modal'); });
-  songDialog.addEventListener('close', () => { stopAudio(); });
+  if (songDialog) {
+    $('#sd-play').addEventListener('click', () => { if (playing === current.id) stopAudio(); else play(current.id, 'modal'); });
+    songDialog.addEventListener('close', () => { stopAudio(); });
+  }
 
   document.addEventListener('click', e => {
     const open = e.target.closest('[data-song]');
@@ -226,6 +230,7 @@
   });
 
   // ---------- catalog filter ----------
+  if (J.catalog !== 'tracks') {
   let filter = J.catalogDefault;
   const applyFilter = () => {
     $$('.filter').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === filter)));
@@ -233,6 +238,7 @@
   };
   $$('.filter').forEach(b => b.addEventListener('click', () => { filter = b.dataset.filter; applyFilter(); track('filter_select', { filter }); }));
   applyFilter();
+  }
 
   // ---------- hero ----------
   $$('[data-pick]').forEach(b => b.addEventListener('click', () => {
@@ -280,6 +286,238 @@
     applyLang();
     track('lang_switch', { to: lang });
   }));
+
+  // ---------- real tracks: player, equalizer, genre slider ----------
+  if (J.catalog === 'tracks') {
+    const T = J.tracks;
+    const dlg = $('#track-dialog');
+    const ui = { cover: $('#td-cover'), genre: $('#td-genre'), title: $('#td-title'), eq: $('#td-eq'), play: $('#td-play'), seek: $('#td-seek'), cur: $('#td-cur'), dur: $('#td-dur'), stats: $('#td-stats') };
+
+    // Streamed through a media element only: no controls, no download entry, no context menu.
+    // The file URL is still public on the CDN, so this keeps casual saving out of the UI rather than making it impossible.
+    const audio = new Audio();
+    audio.preload = 'none';
+    audio.crossOrigin = 'anonymous'; // the CDN answers with access-control-allow-origin: *, required for the analyser
+    audio.disableRemotePlayback = true;
+    try { audio.controlsList.add('nodownload'); } catch { /* not supported */ }
+    window.JGGL_AUDIO = audio; // for debugging in the console
+    dlg.addEventListener('contextmenu', e => e.preventDefault());
+
+    const fmtTime = s => { s = Math.max(0, Math.floor(s) || 0); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+    const fmtCount = n => (n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : String(n));
+    let cur = null, ctx2 = null, analyser = null, freq = null, raf2 = 0, scrubbing = false;
+    const duration = () => (Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : (cur ? cur.durationMs / 1000 : 0));
+
+    // ----- equalizer: live frequency bars from the track itself, doubling as the progress bar -----
+    const BARS = 56;
+    const level = new Float32Array(BARS);
+    const seedBars = id => Array.from({ length: BARS }, (_, k) => 0.22 + 0.5 * Math.abs(Math.sin(seedOf(id) * 1.3 + k * 0.5) * Math.cos(seedOf(id) * 0.7 + k * 0.21)));
+    const drawEq = idle => {
+      const c = ui.eq, g = c.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const w = c.clientWidth, h = c.clientHeight;
+      if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.clearRect(0, 0, w, h);
+      if (!idle && analyser) analyser.getByteFrequencyData(freq);
+      const base = idle || !analyser ? seedBars(cur.id) : null;
+      const gap = 3, bw = (w - gap * (BARS - 1)) / BARS;
+      const frac = duration() ? audio.currentTime / duration() : 0;
+      const t = performance.now() / 1000;
+      for (let i = 0; i < BARS; i++) {
+        let v;
+        if (analyser && !idle) {
+          const idx = 2 + Math.floor(Math.pow(i / BARS, 1.7) * 150);
+          // Music energy sits in the bass, so tilt the spectrum up to keep the whole bar row alive.
+          v = Math.min(1, Math.pow(freq[idx] / 255, 0.85) * (0.85 + 1.7 * i / BARS));
+        } else if (!idle) {
+          v = 0.25 + 0.4 * Math.abs(Math.sin(t * 3 + i * 0.7)); // analyser unavailable: keep it alive
+        } else v = base[i];
+        level[i] = idle ? v : level[i] * 0.55 + v * 0.45;
+        const bh = Math.max(4, level[i] * h);
+        const x = i * (bw + gap), y = (h - bh) / 2;
+        const played = i / BARS <= frac;
+        const grad = g.createLinearGradient(0, y, 0, y + bh);
+        grad.addColorStop(0, played ? '#ff9a5c' : '#6b5246');
+        grad.addColorStop(1, played ? '#da3e14' : '#3d3029');
+        g.fillStyle = grad;
+        g.beginPath();
+        g.roundRect ? g.roundRect(x, y, bw, bh, Math.min(bw / 2, 3)) : g.rect(x, y, bw, bh);
+        g.fill();
+      }
+    };
+    const loop = () => { drawEq(false); raf2 = requestAnimationFrame(loop); };
+    const startLoop = () => { cancelAnimationFrame(raf2); raf2 = requestAnimationFrame(loop); };
+    const stopLoop = () => { cancelAnimationFrame(raf2); if (cur) drawEq(true); };
+
+    const ensureGraph = () => {
+      if (analyser || ctx2 === false) return;
+      try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        ctx2 = new AC();
+        const src = ctx2.createMediaElementSource(audio);
+        analyser = ctx2.createAnalyser();
+        analyser.fftSize = 512;
+        analyser.smoothingTimeConstant = 0.78;
+        freq = new Uint8Array(analyser.frequencyBinCount);
+        src.connect(analyser);
+        analyser.connect(ctx2.destination);
+      } catch { ctx2 = false; analyser = null; }
+    };
+
+    // ----- UI state -----
+    const syncUi = () => {
+      const on = !audio.paused && !audio.ended;
+      ui.play.textContent = on ? '❚❚' : '▶';
+      ui.play.setAttribute('aria-label', tr(on ? J.ui.pause : J.ui.play));
+      $$('.track-card').forEach(c => c.classList.toggle('playing', on && cur && c.dataset.id === cur.id));
+    };
+    const syncTime = () => {
+      ui.cur.textContent = fmtTime(audio.currentTime);
+      ui.dur.textContent = fmtTime(duration());
+      if (!scrubbing) ui.seek.value = duration() ? Math.round(audio.currentTime / duration() * 1000) : 0;
+    };
+    const statsHtml = t => `<span class="stats"><span class="pill">${playSvg}${fmtCount(t.listens)}</span><span class="pill">${heartSvg}${fmtCount(t.likes)}</span></span>`;
+    const playSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.6v14.8a1 1 0 0 0 1.5.9l12-7.4a1 1 0 0 0 0-1.8l-12-7.4A1 1 0 0 0 7 4.6Z"/></svg>';
+    const heartSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 5 6.4 5c2 0 3.7 1.1 5.6 3.3C13.9 6.1 15.6 5 17.6 5 21 5 23.1 8.4 21.6 11.8 19.5 16.4 12 21 12 21Z"/></svg>';
+    const fillTrack = () => {
+      ui.cover.src = cur.cover;
+      ui.genre.textContent = tr(cur.genreLabel);
+      ui.title.textContent = cur.title;
+      ui.stats.innerHTML = statsHtml(cur);
+      syncTime();
+      syncUi();
+    };
+    onLang = (prev => () => { prev(); if (cur && dlg.open) { ui.genre.textContent = tr(cur.genreLabel); syncUi(); } })(onLang);
+
+    const playCurrent = source => {
+      ensureGraph();
+      if (ctx2 && ctx2.state === 'suspended') ctx2.resume();
+      track('sample_play', { song: cur.id, genre: cur.genre, source });
+      audio.play().catch(() => syncUi());
+    };
+    const openTrack = (id, source) => {
+      cur = T[id];
+      current = { id: cur.id, genre: cur.genre };
+      audio.pause();
+      audio.src = cur.audio;
+      audio.currentTime = 0;
+      level.fill(0);
+      fillTrack();
+      dlg.showModal();
+      drawEq(true);
+      track('song_open', { song: id, genre: cur.genre, source });
+      playCurrent('modal');
+    };
+
+    audio.addEventListener('play', () => { syncUi(); startLoop(); });
+    audio.addEventListener('pause', () => { syncUi(); stopLoop(); });
+    audio.addEventListener('ended', () => { audio.currentTime = 0; syncUi(); syncTime(); stopLoop(); });
+    audio.addEventListener('timeupdate', syncTime);
+    audio.addEventListener('loadedmetadata', syncTime);
+    audio.addEventListener('error', () => { syncUi(); });
+    ui.play.addEventListener('click', () => { if (audio.paused) playCurrent('modal'); else audio.pause(); });
+    ui.seek.addEventListener('input', () => { scrubbing = true; audio.currentTime = ui.seek.value / 1000 * duration(); syncTime(); if (audio.paused) drawEq(true); });
+    ui.seek.addEventListener('change', () => { scrubbing = false; });
+    dlg.addEventListener('close', () => { audio.pause(); syncUi(); });
+    addEventListener('resize', () => { if (dlg.open && audio.paused) drawEq(true); });
+
+    document.addEventListener('click', e => {
+      const open = e.target.closest('[data-track]');
+      if (open) { openTrack(open.dataset.track, open.classList.contains('hero-reel') ? 'hero' : 'card'); return; }
+      const make = e.target.closest('[data-make-track]');
+      if (make) {
+        const t = T[make.dataset.makeTrack];
+        track('make_like_this_click', { song: t.id, genre: t.genre, source: 'card' }, true);
+        location.assign(appHref('card_' + t.id, t.genre));
+      }
+    });
+
+    // ----- genre tabs and the one-row slider -----
+    const slider = $('#slider'), prevBtn = $('.slider-btn.prev'), nextBtn = $('.slider-btn.next');
+    const rows = $$('.track-row', slider);
+    const activeRow = () => rows.find(r => !r.hidden);
+    const updateArrows = () => {
+      const r = activeRow();
+      if (!r) return;
+      const max = r.scrollWidth - r.clientWidth;
+      prevBtn.disabled = r.scrollLeft <= 6;
+      nextBtn.disabled = r.scrollLeft >= max - 2;
+      slider.classList.toggle('can-left', !prevBtn.disabled);
+      slider.classList.toggle('can-right', !nextBtn.disabled);
+    };
+    rows.forEach(r => r.addEventListener('scroll', () => requestAnimationFrame(updateArrows), { passive: true }));
+    const nudge = dir => {
+      const r = activeRow();
+      r.scrollBy({ left: dir * Math.max(240, r.clientWidth * 0.8), behavior: 'smooth' });
+      track('slider_scroll', { dir: dir > 0 ? 'next' : 'prev', genre: r.dataset.genre });
+    };
+    prevBtn.addEventListener('click', () => nudge(-1));
+    nextBtn.addEventListener('click', () => nudge(1));
+    addEventListener('resize', updateArrows);
+
+    // Mouse drag to scroll (touch and trackpads already scroll natively). A real drag must not count as a card click.
+    let drag = null, moved = false;
+    rows.forEach(r => r.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      drag = { r, x: e.clientX, left: r.scrollLeft };
+      moved = false;
+    }));
+    addEventListener('pointermove', e => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x;
+      if (!moved && Math.abs(dx) > 6) { moved = true; drag.r.classList.add('dragging'); }
+      if (moved) drag.r.scrollLeft = drag.left - dx;
+    });
+    addEventListener('pointerup', () => { if (drag) { drag.r.classList.remove('dragging'); drag = null; } });
+    document.addEventListener('click', e => { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
+
+    $$('.filter[data-genre]').forEach(b => b.addEventListener('click', () => {
+      $$('.filter[data-genre]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+      rows.forEach(r => { r.hidden = r.dataset.genre !== b.dataset.genre; });
+      const r = activeRow();
+      r.scrollLeft = 0;
+      updateArrows();
+      track('filter_select', { genre: b.dataset.genre });
+    }));
+    updateArrows();
+  }
+
+  // ---------- typed headline (deletes and retypes the highlighted words, like suno.com) ----------
+  if (J.rotate) {
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let token = 0;
+    const run = async () => {
+      const my = ++token;
+      const h1 = $('#hero-title');
+      const span = h1 && h1.querySelector('span');
+      if (!span) return;
+      const phrases = J.rotate.map(tr);
+      h1.setAttribute('aria-label', h1.textContent);
+      span.setAttribute('aria-hidden', 'true');
+      if (reduced) return;
+      const caret = document.createElement('i');
+      caret.className = 'caret';
+      caret.setAttribute('aria-hidden', 'true');
+      h1.append(caret);
+      let i = 0;
+      span.textContent = phrases[0];
+      while (my === token) {
+        await sleep(3300);
+        if (my !== token) return;
+        const next = phrases[(i = (i + 1) % phrases.length)];
+        let keep = 0;
+        while (keep < next.length && keep < span.textContent.length && next[keep] === span.textContent[keep]) keep++;
+        caret.classList.add('typing');
+        while (span.textContent.length > keep && my === token) { span.textContent = span.textContent.slice(0, -1); await sleep(36); }
+        await sleep(260);
+        for (let k = keep; k < next.length && my === token; k++) { span.textContent = next.slice(0, k + 1); await sleep(58); }
+        caret.classList.remove('typing');
+      }
+    };
+    onLang = (prev => () => { prev(); run(); })(onLang);
+  }
 
   applyLang();
   cleanUtm();

@@ -19,13 +19,25 @@ module.exports = [
       verseLabel: L('Paste a verse or a few lines', 'Вставь куплет или пару строк'),
       versePlaceholder: L('Paste a verse here, or just start typing…', 'Вставь куплет сюда или просто начни писать…'),
       cta: L('Hear my song', 'Услышать свою песню'),
-      cards: ['grandma80', 'psalm', 'forty'],
+      // 'genre:index' picks a real track (data/tracks.json); the cards are square covers.
+      cards: ['pop:0', 'jazz:0', 'rock:0'],
+      // Typed headline: only the highlighted part is deleted and retyped, like on suno.com.
+      rotate: [
+        L('your own voice', 'твоим голосом'),
+        L('a jazz groove', 'в ритме джаза'),
+        L('a Latin rhythm', 'в латино-ритме'),
+        L('a rock beat', 'в стиле рок'),
+        L('a pop melody', 'как поп-хит')
+      ],
       sticker: L('Sung in your own voice', 'Поёт твой голос'),
       footnote: null
     },
+    // 'tracks' = real tracks in a genre slider; 'features' = product benefits instead of the pain -> answer block.
+    catalog: 'tracks',
+    features: true,
     pains: ['voice', 'edit', 'redo'],
     steps: null,
-    catalogDefault: 'all',
+    catalogDefault: 'pop',
     finalTitle: L('Your song has waited long enough.', 'Твоя песня ждала достаточно долго.'),
     finalCta: L('Hear my song', 'Услышать свою песню')
   },

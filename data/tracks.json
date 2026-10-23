@@ -1,0 +1,329 @@
+{
+  "source": "Untitled-1.json",
+  "genres": [
+    {
+      "id": "pop",
+      "label": {
+        "en": "Pop",
+        "ru": "Поп"
+      },
+      "tracks": [
+        {
+          "id": "01KW0P5V0F4K8GRF9RY51AESAW",
+          "title": "Beautiful Life With You",
+          "durationMs": 181584,
+          "likes": 767,
+          "listens": 315,
+          "cover": "/covers/01KW0P5V0F4K8GRF9RY51AESAW.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KW0P5V0F4K8GRF9RY51AESAW/audio.m4a"
+        },
+        {
+          "id": "01KW7ED3RRNA5KHAB3GKEWNJWW",
+          "title": "Break Down the Wall",
+          "durationMs": 155011,
+          "likes": 162,
+          "listens": 15,
+          "cover": "/covers/01KW7ED3RRNA5KHAB3GKEWNJWW.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KW7ED3RRNA5KHAB3GKEWNJWW/audio.m4a"
+        },
+        {
+          "id": "01KW0FQEEED2B0A7DJV67P5YJB",
+          "title": "Between Paws and Hearts",
+          "durationMs": 162960,
+          "likes": 90,
+          "listens": 19,
+          "cover": "/covers/01KW0FQEEED2B0A7DJV67P5YJB.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KW0FQEEED2B0A7DJV67P5YJB/audio.m4a"
+        },
+        {
+          "id": "01KW321NC20GJJ09NKBPZTXE2M",
+          "title": "Atom Global",
+          "durationMs": 234971,
+          "likes": 74,
+          "listens": 5,
+          "cover": "/covers/01KW321NC20GJJ09NKBPZTXE2M.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KW321NC20GJJ09NKBPZTXE2M/audio.m4a"
+        },
+        {
+          "id": "01KXEQHZEM4PRPKQG42NDRQRA4",
+          "title": "Foot of the Cross",
+          "durationMs": 302040,
+          "likes": 63,
+          "listens": 16,
+          "cover": "/covers/01KXEQHZEM4PRPKQG42NDRQRA4.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KXEQHZEM4PRPKQG42NDRQRA4/audio.m4a"
+        }
+      ]
+    },
+    {
+      "id": "rap",
+      "label": {
+        "en": "Rap",
+        "ru": "Рэп"
+      },
+      "tracks": [
+        {
+          "id": "01M3VR5KHJGBTYBHNDB2PV3R4W",
+          "title": "Good Job I Didn’t Say That Out Loud",
+          "durationMs": 168046,
+          "likes": 50,
+          "listens": 50,
+          "cover": "/covers/01M3VR5KHJGBTYBHNDB2PV3R4W.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01M3VR5KHJGBTYBHNDB2PV3R4W/audio.m4a"
+        },
+        {
+          "id": "01KW0Z5KAZMAKHB0YEE4JZ5KYS",
+          "title": "Golden Quiet Fire",
+          "durationMs": 152304,
+          "likes": 38,
+          "listens": 10,
+          "cover": "/covers/01KW0Z5KAZMAKHB0YEE4JZ5KYS.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KW0Z5KAZMAKHB0YEE4JZ5KYS/audio.m4a"
+        },
+        {
+          "id": "01KVYSJAJWVGNE8DEQN2C98HV3",
+          "title": "No Brakes Tonight",
+          "durationMs": 128287,
+          "likes": 36,
+          "listens": 7,
+          "cover": "/covers/01KVYSJAJWVGNE8DEQN2C98HV3.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KVYSJAJWVGNE8DEQN2C98HV3/audio.m4a"
+        },
+        {
+          "id": "01KY2SBXCZDQSFYY3TRHB86CSJ",
+          "title": "Mother's Advice",
+          "durationMs": 233040,
+          "likes": 33,
+          "listens": 6,
+          "cover": "/covers/01KY2SBXCZDQSFYY3TRHB86CSJ.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KY2SBXCZDQSFYY3TRHB86CSJ/audio.m4a"
+        },
+        {
+          "id": "01KZ7M88VNXH3SVEH2PE01RCZ9",
+          "title": "End the Fed",
+          "durationMs": 198024,
+          "likes": 30,
+          "listens": 4,
+          "cover": "/covers/01KZ7M88VNXH3SVEH2PE01RCZ9.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KZ7M88VNXH3SVEH2PE01RCZ9/audio.m4a"
+        }
+      ]
+    },
+    {
+      "id": "jazz",
+      "label": {
+        "en": "Jazz",
+        "ru": "Джаз"
+      },
+      "tracks": [
+        {
+          "id": "01KW0H88SW2HRNXJG1F0YZDJM0",
+          "title": "Golden Bosphorus Nights",
+          "durationMs": 302760,
+          "likes": 106,
+          "listens": 31,
+          "cover": "/covers/01KW0H88SW2HRNXJG1F0YZDJM0.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KW0H88SW2HRNXJG1F0YZDJM0/audio.m4a"
+        },
+        {
+          "id": "01KVTM76RCCHXJBHWFTEW8TY5W",
+          "title": "Waves in the Dark",
+          "durationMs": 178445,
+          "likes": 62,
+          "listens": 19,
+          "cover": "/covers/01KVTM76RCCHXJBHWFTEW8TY5W.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KVTM76RCCHXJBHWFTEW8TY5W/audio.m4a"
+        },
+        {
+          "id": "01KVJ0VKB3W4X26S02TRVZA3NW",
+          "title": "First Bell Heart",
+          "durationMs": 202272,
+          "likes": 54,
+          "listens": 14,
+          "cover": "/covers/01KVJ0VKB3W4X26S02TRVZA3NW.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/tracks/01KVJ0VKB3W4X26S02TRVZA3NW/audio.m4a"
+        },
+        {
+          "id": "01KVTM6Z6YF39XDZGA3DJ108R7",
+          "title": "Morning Coffee",
+          "durationMs": 206797,
+          "likes": 46,
+          "listens": 28,
+          "cover": "/covers/01KVTM6Z6YF39XDZGA3DJ108R7.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KVTM6Z6YF39XDZGA3DJ108R7/audio.m4a"
+        },
+        {
+          "id": "01KVTM74YSXZ1T18R8A37QPJ09",
+          "title": "Morning Light",
+          "durationMs": 199808,
+          "likes": 43,
+          "listens": 24,
+          "cover": "/covers/01KVTM74YSXZ1T18R8A37QPJ09.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KVTM74YSXZ1T18R8A37QPJ09/audio.m4a"
+        }
+      ]
+    },
+    {
+      "id": "latino",
+      "label": {
+        "en": "Latino",
+        "ru": "Латино"
+      },
+      "tracks": [
+        {
+          "id": "01KXG8T9AZFD4CW0SN27D6VF07",
+          "title": "Thank You Lord",
+          "durationMs": 144024,
+          "likes": 36,
+          "listens": 13,
+          "cover": "/covers/01KXG8T9AZFD4CW0SN27D6VF07.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KXG8T9AZFD4CW0SN27D6VF07/audio.m4a"
+        },
+        {
+          "id": "01M1ECBY3FWNB36W99GPV08561",
+          "title": "Invisible People",
+          "durationMs": 257071,
+          "likes": 33,
+          "listens": 14,
+          "cover": "/covers/01M1ECBY3FWNB36W99GPV08561.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01M1ECBY3FWNB36W99GPV08561/audio.m4a"
+        },
+        {
+          "id": "01M35YY6X2CK8KE1ZYNA00SD4F",
+          "title": "SALSA IN THE SADDLE",
+          "durationMs": 185731,
+          "likes": 18,
+          "listens": 4,
+          "cover": "/covers/01M35YY6X2CK8KE1ZYNA00SD4F.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01M35YY6X2CK8KE1ZYNA00SD4F/audio.m4a"
+        },
+        {
+          "id": "01KYR0N6CBXG5J03BSNRSY26S8",
+          "title": "Spit On The Devil",
+          "durationMs": 150024,
+          "likes": 15,
+          "listens": 5,
+          "cover": "/covers/01KYR0N6CBXG5J03BSNRSY26S8.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KYR0N6CBXG5J03BSNRSY26S8/audio.m4a"
+        },
+        {
+          "id": "01KWRDNNA2MQVPP4DVJ2ZGKQQ6",
+          "title": "愛と平和の灯",
+          "durationMs": 149952,
+          "likes": 15,
+          "listens": 2,
+          "cover": "/covers/01KWRDNNA2MQVPP4DVJ2ZGKQQ6.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KWRDNNA2MQVPP4DVJ2ZGKQQ6/audio.m4a"
+        }
+      ]
+    },
+    {
+      "id": "rnb",
+      "label": {
+        "en": "Rnb",
+        "ru": "Ритм-н-блюз"
+      },
+      "tracks": [
+        {
+          "id": "01KXM0GR7KY3R4FQY8T8XKDX07",
+          "title": "At My Worst",
+          "durationMs": 176040,
+          "likes": 34,
+          "listens": 12,
+          "cover": "/covers/01KXM0GR7KY3R4FQY8T8XKDX07.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KXM0GR7KY3R4FQY8T8XKDX07/audio.m4a"
+        },
+        {
+          "id": "01KXR76VN24SPF2BPTGDKEVGDX",
+          "title": "Let It Go",
+          "durationMs": 270024,
+          "likes": 29,
+          "listens": 5,
+          "cover": "/covers/01KXR76VN24SPF2BPTGDKEVGDX.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KXR76VN24SPF2BPTGDKEVGDX/audio.m4a"
+        },
+        {
+          "id": "01M02SYCE0SS1FKQK2NRN7M40J",
+          "title": "LIAR",
+          "durationMs": 295032,
+          "likes": 25,
+          "listens": 2,
+          "cover": "/covers/01M02SYCE0SS1FKQK2NRN7M40J.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01M02SYCE0SS1FKQK2NRN7M40J/audio.m4a"
+        },
+        {
+          "id": "01KXF76R1NT23A2EPBHGW7QFHS",
+          "title": "Mon destin, Jackyss",
+          "durationMs": 205032,
+          "likes": 25,
+          "listens": 1,
+          "cover": "/covers/01KXF76R1NT23A2EPBHGW7QFHS.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KXF76R1NT23A2EPBHGW7QFHS/audio.m4a"
+        },
+        {
+          "id": "01KWDJ8WCV8K766B80C8GGBADY",
+          "title": "After You’re Gone",
+          "durationMs": 197664,
+          "likes": 24,
+          "listens": 1,
+          "cover": "/covers/01KWDJ8WCV8K766B80C8GGBADY.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KWDJ8WCV8K766B80C8GGBADY/audio.m4a"
+        }
+      ]
+    },
+    {
+      "id": "rock",
+      "label": {
+        "en": "Rock and roll",
+        "ru": "Рок-н-ролл"
+      },
+      "tracks": [
+        {
+          "id": "01KW04F97VN0XQW3XVKVZ2DJR4",
+          "title": "Blue and Orange Glory",
+          "durationMs": 237244,
+          "likes": 473,
+          "listens": 145,
+          "cover": "/covers/01KW04F97VN0XQW3XVKVZ2DJR4.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KW04F97VN0XQW3XVKVZ2DJR4/audio.m4a"
+        },
+        {
+          "id": "01KW3N25C3P8755Z3TQT268BJ2",
+          "title": "The Booth That Stayed Empty",
+          "durationMs": 326784,
+          "likes": 356,
+          "listens": 61,
+          "cover": "/covers/01KW3N25C3P8755Z3TQT268BJ2.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KW3N25C3P8755Z3TQT268BJ2/audio.m4a"
+        },
+        {
+          "id": "01KW7GY1MM2EHKVXSHE1EYJEP8",
+          "title": "Still Time Left",
+          "durationMs": 288000,
+          "likes": 231,
+          "listens": 24,
+          "cover": "/covers/01KW7GY1MM2EHKVXSHE1EYJEP8.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KW7GY1MM2EHKVXSHE1EYJEP8/audio.m4a"
+        },
+        {
+          "id": "01KW30VR27SXZY9D9DAGA1RVPZ",
+          "title": "All the Way",
+          "durationMs": 184999,
+          "likes": 207,
+          "listens": 20,
+          "cover": "/covers/01KW30VR27SXZY9D9DAGA1RVPZ.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KW30VR27SXZY9D9DAGA1RVPZ/audio.m4a"
+        },
+        {
+          "id": "01KW53H0WANY9BCHR0EXRYFMD7",
+          "title": "Take Them Down",
+          "durationMs": 191791,
+          "likes": 67,
+          "listens": 6,
+          "cover": "/covers/01KW53H0WANY9BCHR0EXRYFMD7.webp",
+          "audio": "https://storage.yandexcloud.kz/yckz1-atom-main-jggl-prod-bkt-media/music/tracks/01KW53H0WANY9BCHR0EXRYFMD7/audio.m4a"
+        }
+      ]
+    }
+  ]
+}

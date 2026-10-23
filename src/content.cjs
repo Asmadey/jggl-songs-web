@@ -1,5 +1,7 @@
 // Copy shared by every hypothesis page. Each string is {en, ru}. English is the source of truth.
 const L = (en, ru) => ({ en, ru });
+// Real tracks (6 genres x 5), imported by scripts/import-tracks.cjs. Covers live in public/covers/ at 459x459.
+const tracksData = require('../data/tracks.json');
 
 const nav = [
   { href: '#songs', label: L('Hear songs', 'Послушать песни') },
@@ -89,6 +91,26 @@ const songs = [
   }
 ];
 
+
+// Product benefits shown on the "Your Voice" page instead of the pain -> answer block. Images were generated with Codex.
+const features = [
+  {
+    id: 'voices', img: '/img/features/voices.webp',
+    title: L('Songs in your own voice', 'Песни твоим голосом'),
+    text: L('Talk for a moment to record your voice, and JGGL sings the track in it.', 'Немного поговори, чтобы записать голос, и JGGL споёт трек твоим голосом.')
+  },
+  {
+    id: 'cover', img: '/img/features/cover.webp',
+    title: L('Cover art for every track', 'Обложка к каждому треку'),
+    text: L('Every track you create comes with its own cover, ready to share.', 'К каждому созданному треку ты сразу получаешь обложку, и им можно делиться.')
+  },
+  {
+    id: 'remix', img: '/img/features/remix.webp',
+    title: L('Make remixes', 'Создавай ремиксы'),
+    text: L('Turn any track you made into new versions: another style, a fresh take.', 'Превращай любой свой трек в новые версии: другой стиль, свежее звучание.')
+  }
+];
+
 const chips = [
   { id: 'all', label: L('All', 'Все') },
   { id: 'family', label: L('For family', 'Для семьи') },
@@ -154,9 +176,20 @@ const ui = {
   trustEyebrow: L('YOU CAN RELY ON US', 'НА НАС МОЖНО ПОЛОЖИТЬСЯ'),
   faqEyebrow: L('QUESTIONS', 'ВОПРОСЫ'),
   faqTitle: L('Before you start.', 'Прежде чем начать.'),
+  featuresEyebrow: L('WHY JGGL', 'ПОЧЕМУ JGGL'),
+  featuresTitle: L('Your song, your voice, your cover.', 'Твоя песня, твой голос, твоя обложка.'),
+  tracksEyebrow: L('TRACKS MADE ON JGGL', 'ТРЕКИ, СОЗДАННЫЕ В JGGL'),
+  tracksNote: L('Pick a genre and listen. Tracks play right here.', 'Выбери жанр и послушай. Треки играют прямо здесь.'),
+  plays: L('Plays', 'Прослушивания'),
+  likes: L('Likes', 'Лайки'),
+  scrollPrev: L('Previous tracks', 'Предыдущие треки'),
+  scrollNext: L('Next tracks', 'Следующие треки'),
+  genresLabel: L('Genres', 'Жанры'),
+  playTrack: L('Play', 'Играть'),
+  seek: L('Seek', 'Перемотка'),
   verseCopied: L('We copied your verse. Paste it on the next screen.', 'Мы скопировали твой куплет. Вставь его на следующем экране.'),
   pickOne: L('Pick one', 'Выбери'),
   hubTitle: L('Songs landing: hypotheses', 'Лендинг для песен: гипотезы')
 };
 
-module.exports = { L, nav, common, songs, chips, pains, benefits, steps, trust, faq, ui };
+module.exports = { L, nav, common, songs, chips, pains, features, tracksData, benefits, steps, trust, faq, ui };

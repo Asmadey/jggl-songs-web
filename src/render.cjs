@@ -33,6 +33,10 @@ function wave(seed, bars = 28) {
   }
   return `<span class="wave" aria-hidden="true">${h}</span>`;
 }
+const fmtCount = n => (n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : String(n));
+const playIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.6v14.8a1 1 0 0 0 1.5.9l12-7.4a1 1 0 0 0 0-1.8l-12-7.4A1 1 0 0 0 7 4.6Z"/></svg>';
+const heartIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.400 3 5 6.400 5c2 0 3.700 1.100 5.600 3.300C13.900 6.100 15.600 5 17.600 5 21 5 23.100 8.400 21.600 11.800 19.500 16.400 12 21 12 21Z"/></svg>';
+const arrowIcon = d => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const seedOf = id => [...id].reduce((s, ch) => s + ch.charCodeAt(0), 0) % 97;
 
 function renderExperiment(exp, cfg) {
@@ -64,6 +68,51 @@ function renderExperiment(exp, cfg) {
         <span class="hero-reel-label"><small${a(s.genreLabel)}>${s.genreLabel.en}</small><span${a(s.title)}>${esc(s.title.en)}</span></span>
       </button>`;
   };
+
+  const tracksMode = exp.catalog === 'tracks';
+  const genres = C.tracksData.genres;
+  const allTracks = {};
+  genres.forEach(g => g.tracks.forEach(t => { allTracks[t.id] = { ...t, genre: g.id, genreLabel: g.label }; }));
+  // Same attribute strings are reused for every card, so each label is registered once.
+  const playsAttr = attr('aria-label', C.ui.plays), likesAttr = attr('aria-label', C.ui.likes);
+  const genreAttr = Object.fromEntries(genres.map(g => [g.id, a(g.label)]));
+  const makeAttr = a(C.common.makeLikeThis);
+
+  const stats = t => `<span class="stats"><span class="pill"${playsAttr}>${playIcon}${fmtCount(t.listens)}</span><span class="pill"${likesAttr}>${heartIcon}${fmtCount(t.likes)}</span></span>`;
+  const trackCard = t => `
+    <article class="song-card track-card" data-id="${t.id}">
+      <button type="button" class="song-open" data-track="${t.id}" aria-labelledby="t-${t.id}">
+        <span class="song-cover">
+          <img src="${t.cover}" width="459" height="459" loading="lazy" decoding="async" alt="">
+          <span class="flag"${genreAttr[t.genre]}>${esc(t.genreLabel.en)}</span>
+          <span class="card-play" aria-hidden="true">▶</span>
+          <span class="eqmini" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          ${stats(t)}
+        </span>
+      </button>
+      <div class="song-info">
+        <h3 id="t-${t.id}">${esc(t.title)}</h3>
+        <button type="button" class="use-button" data-make-track="${t.id}">${spark}<span${makeAttr}>${C.common.makeLikeThis.en}</span></button>
+      </div>
+    </article>`;
+  const trackHero = ref => {
+    const [g, i] = ref.split(':');
+    const t = allTracks[genres.find(x => x.id === g).tracks[Number(i)].id];
+    return `<button type="button" class="hero-reel" data-track="${t.id}" aria-label="${esc(C.common.play.en)}: ${esc(t.title)}">
+        <img src="${t.cover}" width="459" height="459" alt="" decoding="async">
+        <span class="hero-reel-play" aria-hidden="true">▶</span>
+        <span class="hero-reel-label"><small${genreAttr[t.genre]}>${esc(t.genreLabel.en)}</small><span>${esc(t.title)}</span></span>
+      </button>`;
+  };
+  const sliderHtml = `
+      <div class="filters" role="group" aria-label="Genres"${attr('aria-label', C.ui.genresLabel)}>${genres.map(g => `<button type="button" class="filter" data-genre="${g.id}" aria-pressed="${g.id === exp.catalogDefault}"${genreAttr[g.id]}>${esc(g.label.en)}</button>`).join('')}</div>
+      <p class="catalog-note"${a(C.ui.tracksNote)}>${C.ui.tracksNote.en}</p>
+      <div class="slider" id="slider">
+        <button type="button" class="slider-btn prev" aria-label="Previous tracks"${attr('aria-label', C.ui.scrollPrev)} disabled>${arrowIcon('m15 5-7 7 7 7')}</button>
+        ${genres.map(g => `<div class="track-row" data-genre="${g.id}"${g.id === exp.catalogDefault ? '' : ' hidden'}>${g.tracks.map(t => trackCard(allTracks[t.id])).join('')}</div>`).join('')}
+        <button type="button" class="slider-btn next" aria-label="Next tracks"${attr('aria-label', C.ui.scrollNext)}>${arrowIcon('m9 5 7 7-7 7')}</button>
+      </div>`;
+  const featureHtml = C.features.map(f => `<article class="feature-card"><img src="${f.img}" width="720" height="720" loading="lazy" decoding="async" alt=""><h3${a(f.title)}>${esc(f.title.en)}</h3><p${a(f.text)}>${esc(f.text.en)}</p></article>`).join('');
 
   const caption = `<div class="free-caption"><span${a(C.common.caption)}>${C.common.caption.en}</span><small${a(C.common.captionSub)}>${C.common.captionSub.en}</small></div>`;
 
@@ -104,6 +153,10 @@ function renderExperiment(exp, cfg) {
   const clientConfig = {
     slug: exp.slug, appUrl: cfg.appUrl, langs, defaultLang: cfg.defaultLang, posthog: cfg.posthog,
     catalogDefault: exp.catalogDefault,
+    catalog: exp.catalog || 'placeholders',
+    rotate: h.rotate || null,
+    tracks: tracksMode ? allTracks : {},
+    ui_tracks: { plays: C.ui.plays, likes: C.ui.likes },
     songs: C.songs.map(s => ({ id: s.id, genre: s.genre, hue: s.hue, instrumental: !!s.instrumental, title: s.title, genreLabel: s.genreLabel, lyric: s.lyric })),
     ui: {
       verseCopied: C.ui.verseCopied,
@@ -143,25 +196,29 @@ function renderExperiment(exp, cfg) {
         ${heroAction}
         <div class="hero-bottom"><span class="mini-play">▶</span><span${a(bottom)}>${bottom.en}</span></div>
       </div>
-      <div class="hero-stage" aria-label="Example songs">
-        ${h.cards.map(heroCard).join('')}
+      <div class="hero-stage${tracksMode ? ' square' : ''}" aria-label="Example songs">
+        ${tracksMode ? h.cards.map(trackHero).join('') : h.cards.map(heroCard).join('')}
         <div class="hero-sticker"><b>●</b><span${a(h.sticker)}>${esc(h.sticker.en)}</span></div>
       </div>
     </section>
 
     <section class="catalog wrap" id="songs" aria-labelledby="songs-title">
-      <div class="eyebrow"><span${a(C.ui.songsEyebrow)}>${C.ui.songsEyebrow.en}</span></div>
+      <div class="eyebrow"><span${a(tracksMode ? C.ui.tracksEyebrow : C.ui.songsEyebrow)}>${(tracksMode ? C.ui.tracksEyebrow : C.ui.songsEyebrow).en}</span></div>
       <h2 id="songs-title"${a(C.ui.songsTitle)}>${C.ui.songsTitle.en}</h2>
-      <div class="filters" role="group" aria-label="Occasions">${chipHtml}</div>
+      ${tracksMode ? sliderHtml : `<div class="filters" role="group" aria-label="Occasions">${chipHtml}</div>
       <p class="catalog-note"${a(C.ui.songsNote)}>${C.ui.songsNote.en}</p>
-      <div class="song-grid" id="song-grid">${C.songs.map(songCard).join('')}</div>
+      <div class="song-grid" id="song-grid">${C.songs.map(songCard).join('')}</div>`}
     </section>
 
-    <section class="pains wrap" id="why" aria-labelledby="pain-title">
+    ${exp.features ? `<section class="features wrap" id="why" aria-labelledby="feat-title">
+      <div class="eyebrow"><span${a(C.ui.featuresEyebrow)}>${C.ui.featuresEyebrow.en}</span></div>
+      <h2 id="feat-title"${a(C.ui.featuresTitle)}>${C.ui.featuresTitle.en}</h2>
+      <div class="feature-grid">${featureHtml}</div>
+    </section>` : `<section class="pains wrap" id="why" aria-labelledby="pain-title">
       <div class="eyebrow"><span${a(C.ui.painEyebrow)}>${C.ui.painEyebrow.en}</span></div>
       <h2 id="pain-title"${a(C.ui.painTitle)}>${C.ui.painTitle.en}</h2>
       <div class="pain-grid">${painCards}</div>
-    </section>
+    </section>`}
 
     <section class="how wrap" id="how" aria-labelledby="how-title">
       <div><div class="eyebrow"><span${a(C.ui.howEyebrow)}>${C.ui.howEyebrow.en}</span></div><h2 id="how-title"${a(C.ui.howTitle)}>${C.ui.howTitle.en}</h2></div>
@@ -193,7 +250,24 @@ function renderExperiment(exp, cfg) {
   </main>
   <footer class="wrap footer"><a class="brand" href="${cfg.brandUrl}"><img src="${root}assets/jggl-mark.svg" width="32" height="32" alt=""><span>JGGL</span></a><span${a(C.common.footerLine)}>${C.common.footerLine.en}</span><small>© 2026 JGGL</small></footer>
 
-  <dialog id="song-dialog" class="modal song-dialog" aria-labelledby="sd-title">
+  ${tracksMode ? `<dialog id="track-dialog" class="modal track-dialog" aria-labelledby="td-title">
+    <button class="close" data-close type="button" aria-label="Close">×</button>
+    <div class="td-cover"><img id="td-cover" width="459" height="459" alt="" decoding="async"></div>
+    <div class="td-info">
+      <span class="eyebrow" id="td-genre"></span>
+      <h2 id="td-title"></h2>
+      <canvas id="td-eq" class="td-eq" aria-hidden="true"></canvas>
+      <div class="td-controls">
+        <button type="button" class="sd-play" id="td-play" aria-label="Play"></button>
+        <div class="td-seek">
+          <input type="range" id="td-seek" min="0" max="1000" value="0" step="1" aria-label="Seek"${attr('aria-label', C.ui.seek)}>
+          <div class="td-times"><span id="td-cur">0:00</span><span id="td-dur">0:00</span></div>
+        </div>
+      </div>
+      <div id="td-stats"></div>
+      <a class="button fire" id="td-make" href="${cfg.appUrl}" data-cta="song_make"><span${makeAttr}>${C.common.makeLikeThis.en}</span>${spark}</a>
+    </div>
+  </dialog>` : `<dialog id="song-dialog" class="modal song-dialog" aria-labelledby="sd-title">
     <button class="close" data-close type="button" aria-label="Close">×</button>
     <div class="sd-cover" id="sd-cover"></div>
     <div class="sd-info">
@@ -204,7 +278,7 @@ function renderExperiment(exp, cfg) {
       <blockquote id="sd-lyric"></blockquote>
       <a class="button fire" id="sd-make" href="${cfg.appUrl}" data-cta="song_make"><span${a(C.common.makeLikeThis)}>${C.common.makeLikeThis.en}</span>${spark}</a>
     </div>
-  </dialog>
+  </dialog>`}
 
 </body>
 </html>
