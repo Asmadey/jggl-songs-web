@@ -190,7 +190,6 @@ const ui = {
   appText: L('Get the JGGL app and turn your words into a song anywhere.', 'Установи приложение JGGL и превращай слова в песню где угодно.'),
   storeIosSmall: L('Download on the', 'Загрузить в'),
   storeAndroidSmall: L('Get it on', 'Доступно в'),
-  webLink: L('Or try it in your browser', 'Или попробуй в браузере'),
   verseCopied: L('We copied your verse. Paste it on the next screen.', 'Мы скопировали твой куплет. Вставь его на следующем экране.'),
   pickOne: L('Pick one', 'Выбери'),
   hubTitle: L('Songs landing: hypotheses', 'Лендинг для песен: гипотезы')

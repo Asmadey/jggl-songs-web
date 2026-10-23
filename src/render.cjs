@@ -173,7 +173,6 @@ function renderExperiment(exp, cfg) {
             <a class="store" href="${cfg.stores.ios}" target="_blank" rel="noopener" data-store="ios">${arts.apple}<span><small${a(C.ui.storeIosSmall)}>${C.ui.storeIosSmall.en}</small>App Store</span></a>
             <a class="store" href="${cfg.stores.android}" target="_blank" rel="noopener" data-store="android">${arts.play}<span><small${a(C.ui.storeAndroidSmall)}>${C.ui.storeAndroidSmall.en}</small>Google Play</span></a>
           </div>
-          <a class="web-link" href="${cfg.appUrl}" data-cta="final"><span${a(C.ui.webLink)}>${C.ui.webLink.en}</span> →</a>
         </div>
       </div>
     </section>`;
