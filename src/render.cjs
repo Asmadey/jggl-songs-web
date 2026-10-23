@@ -1,5 +1,6 @@
 // Turns one hypothesis (src/experiments.cjs) + shared copy (src/content.cjs) into a static HTML page.
 const C = require('./content.cjs');
+const arts = require('./arts.cjs');
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const plain = s => String(s).replace(/<[^>]+>/g, '');
@@ -86,6 +87,7 @@ function renderExperiment(exp, cfg) {
       </button>`;
   };
 
+  const hide = name => (exp.hideSections || []).includes(name);
   const tracksMode = exp.catalog === 'tracks';
   const genres = C.tracksData.genres;
   const allTracks = {};
@@ -112,9 +114,9 @@ function renderExperiment(exp, cfg) {
         <button type="button" class="use-button" data-make-track="${t.id}">${spark}<span${makeAttr}>${C.common.makeLikeThis.en}</span></button>
       </div>
     </article>`;
+  const byRef = ref => { const [g, i] = ref.split(':'); return allTracks[genres.find(x => x.id === g).tracks[Number(i)].id]; };
   const trackHero = ref => {
-    const [g, i] = ref.split(':');
-    const t = allTracks[genres.find(x => x.id === g).tracks[Number(i)].id];
+    const t = byRef(ref);
     return `<button type="button" class="hero-reel" data-track="${t.id}" aria-label="${esc(C.common.play.en)}: ${esc(t.title)}">
         <img src="${t.cover}" width="459" height="459" alt="" decoding="async">
         <span class="hero-reel-play" aria-hidden="true">▶</span>
@@ -160,6 +162,27 @@ function renderExperiment(exp, cfg) {
   }).join('');
   const steps = exp.steps || C.steps;
   const stepHtml = steps.map((s, k) => `<div class="how-step"><span class="step-number">0${k + 1}</span><h3${a(s.title)}>${esc(s.title.en)}</h3><p${a(s.text)}>${esc(s.text.en)}</p></div>`).join('');
+  const finalAppHtml = `<section class="final-app wrap" aria-labelledby="final-title">
+      <div class="app-panel">
+        ${(exp.finalCovers || []).map((ref, k) => { const t = byRef(ref); return `<img class="fc fc${k + 1}" src="${t.cover}" width="459" height="459" loading="lazy" decoding="async" alt="">`; }).join('')}
+        <div class="app-body">
+          <img class="app-icon" src="/icon-192.png" width="96" height="96" alt="JGGL">
+          <h2 id="final-title"${a(exp.finalTitle)}>${esc(exp.finalTitle.en)}</h2>
+          <p${a(C.ui.appText)}>${C.ui.appText.en}</p>
+          <div class="stores">
+            <a class="store" href="${cfg.stores.ios}" target="_blank" rel="noopener" data-store="ios">${arts.apple}<span><small${a(C.ui.storeIosSmall)}>${C.ui.storeIosSmall.en}</small>App Store</span></a>
+            <a class="store" href="${cfg.stores.android}" target="_blank" rel="noopener" data-store="android">${arts.play}<span><small${a(C.ui.storeAndroidSmall)}>${C.ui.storeAndroidSmall.en}</small>Google Play</span></a>
+          </div>
+          <a class="web-link" href="${cfg.appUrl}" data-cta="final"><span${a(C.ui.webLink)}>${C.ui.webLink.en}</span> →</a>
+        </div>
+      </div>
+    </section>`;
+  const stepArts = [arts.write, arts.record, arts.share];
+  const howVisualHtml = `<section class="how how-visual wrap" id="how" aria-labelledby="how-title">
+      <header class="how-head"><div class="eyebrow"><span class="orange-line"></span><span${a(C.ui.howEyebrow)}>${C.ui.howEyebrow.en}</span></div><h2 id="how-title"${a(C.ui.howTitle)}>${C.ui.howTitle.en}</h2></header>
+      <ol class="how-steps">${steps.map((st, k) => `${k ? `<li class="how-link" aria-hidden="true">${arts.arrow}</li>` : ''}<li class="how-card" style="--i:${k}"><div class="how-art">${stepArts[k]}<span class="step-badge">0${k + 1}</span></div><h3${a(st.title)}>${esc(st.title.en)}</h3><p${a(st.text)}>${esc(st.text.en)}</p></li>`).join('')}</ol>
+      <div class="how-cta"><a class="button fire" href="${cfg.appUrl}" data-cta="how"><span${a(C.common.ctaDefault)}>${C.common.ctaDefault.en}</span>${spark}</a></div>
+    </section>`;
   const benefitHtml = C.benefits.map(b => `<li${a(b)}>${esc(b.en)}</li>`).join('');
   const trustHtml = C.trust.map(t => `<div class="trust-item"><h3${a(t.title)}>${esc(t.title.en)}</h3><p${a(t.text)}>${esc(t.text.en)}</p></div>`).join('');
   const faqHtml = C.faq.map((f, k) => `<details data-faq="${k + 1}"><summary${a(f.q)}>${esc(f.q.en)}</summary><p${a(f.a)}>${esc(f.a.en)}</p></details>`).join('');
@@ -201,7 +224,7 @@ function renderExperiment(exp, cfg) {
   <a class="skip" href="#songs"${a(C.common.skip)}>${C.common.skip.en}</a>
   <header class="topbar">
     <a class="brand" href="${cfg.brandUrl}" aria-label="JGGL"><img src="${root}assets/jggl-mark.svg" width="42" height="42" alt=""><span>JGGL</span><i></i><small>SONGS</small></a>
-    <nav aria-label="Navigation">${C.nav.map(n => `<a href="${n.href}"${a(n.label)}>${n.label.en}</a>`).join('')}</nav>
+    <nav aria-label="Navigation">${[C.nav[0], ...(exp.extraNav || []), ...C.nav.slice(1)].map(n => `<a href="${n.href}"${a(n.label)}>${n.label.en}</a>`).join('')}</nav>
     <div class="top-actions">${langSwitch}<a class="button outline header-cta" href="${cfg.appUrl}" data-cta="header"><span${a(C.common.ctaDefault)}>${C.common.ctaDefault.en}</span></a></div>
   </header>
   <main>
@@ -237,16 +260,16 @@ function renderExperiment(exp, cfg) {
       <div class="pain-grid">${painCards}</div>
     </section>`}
 
-    <section class="how wrap" id="how" aria-labelledby="how-title">
+    ${exp.stepsVisual ? howVisualHtml : `<section class="how wrap" id="how" aria-labelledby="how-title">
       <div><div class="eyebrow"><span${a(C.ui.howEyebrow)}>${C.ui.howEyebrow.en}</span></div><h2 id="how-title"${a(C.ui.howTitle)}>${C.ui.howTitle.en}</h2></div>
       ${stepHtml}
-    </section>
+    </section>`}
 
-    <section class="get wrap" aria-labelledby="get-title">
+    ${hide('get') ? '' : `    <section class="get wrap" aria-labelledby="get-title">
       <div class="eyebrow"><span${a(C.ui.getEyebrow)}>${C.ui.getEyebrow.en}</span></div>
       <h2 id="get-title"${a(C.ui.getTitle)}>${C.ui.getTitle.en}</h2>
       <ul class="benefits">${benefitHtml}</ul>
-    </section>
+    </section>`}
 
     <section class="trust wrap" aria-labelledby="trust-title">
       <div class="eyebrow"><span${a(C.ui.trustEyebrow)}>${C.ui.trustEyebrow.en}</span></div>
@@ -254,16 +277,16 @@ function renderExperiment(exp, cfg) {
       <div class="trust-grid">${trustHtml}</div>
     </section>
 
-    <section class="faq wrap" aria-labelledby="faq-title">
+    ${hide('faq') ? '' : `    <section class="faq wrap" aria-labelledby="faq-title">
       <div class="eyebrow"><span${a(C.ui.faqEyebrow)}>${C.ui.faqEyebrow.en}</span></div>
       <h2 id="faq-title"${a(C.ui.faqTitle)}>${C.ui.faqTitle.en}</h2>
       <div class="faq-list">${faqHtml}</div>
-    </section>
+    </section>`}
 
-    <section class="final wrap" aria-labelledby="final-title">
+    ${exp.finalApp ? finalAppHtml : `<section class="final wrap" aria-labelledby="final-title">
       <h2 id="final-title"${a(exp.finalTitle)}>${esc(exp.finalTitle.en)}</h2>
       <a class="button fire" href="${cfg.appUrl}" data-cta="final"><span${a(exp.finalCta)}>${exp.finalCta.en}</span>${spark}</a>
-    </section>
+    </section>`}
   </main>
   <footer class="wrap footer"><a class="brand" href="${cfg.brandUrl}"><img src="${root}assets/jggl-mark.svg" width="32" height="32" alt=""><span>JGGL</span></a><span${a(C.common.footerLine)}>${C.common.footerLine.en}</span><small>© 2026 JGGL</small></footer>
 

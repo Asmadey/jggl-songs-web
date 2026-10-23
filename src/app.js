@@ -270,6 +270,12 @@
     });
   }
 
+  // ---------- app store buttons ----------
+  document.addEventListener('click', e => {
+    const store = e.target.closest('a[data-store]');
+    if (store) track('store_click', { store: store.dataset.store }, true);
+  });
+
   // ---------- misc events ----------
   document.addEventListener('toggle', e => { if (e.target.matches && e.target.matches('details[data-faq]') && e.target.open) track('faq_open', { q: e.target.dataset.faq }); }, true);
   const seen = new Set();
@@ -518,6 +524,16 @@
       }
     };
     onLang = (prev => () => { prev(); run(); })(onLang);
+  }
+
+  // ---------- "how it works": reveal the cards and start their animations when the block scrolls into view ----------
+  const how = $('.how-visual');
+  if (how) {
+    how.classList.add('armed');
+    const io = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) { how.classList.add('in'); io.disconnect(); track('how_view'); }
+    }, { threshold: 0.2 });
+    io.observe(how);
   }
 
   applyLang();

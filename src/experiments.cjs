@@ -41,6 +41,13 @@ module.exports = [
     // 'tracks' = real tracks in a genre slider; 'features' = product benefits instead of the pain -> answer block.
     catalog: 'tracks',
     features: true,
+    stepsVisual: true, // animated step cards instead of the plain three-column list
+    // Closing block: app download buttons (as on suno.com) with a few covers around the panel.
+    // Extra header tab: "Examples" jumps to the "From a notebook to a song." tracks section.
+    extraNav: [{ href: '#songs', label: L('Examples', 'Примеры') }],
+    finalApp: true,
+    finalCovers: ['pop:1', 'latino:0', 'rap:0', 'rnb:0'],
+    hideSections: ['get', 'faq'], // "What you get" and the FAQ are not shown on this page
     pains: ['voice', 'edit', 'redo'],
     steps: null,
     catalogDefault: 'pop',

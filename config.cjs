@@ -5,6 +5,10 @@ module.exports = {
   defaultLang: 'en',
   appUrl: 'https://web.jggl.ai/',
   brandUrl: 'https://jggl.ai',
+  stores: {
+    ios: 'https://apps.apple.com/us/app/jggl-ai-music-video-maker/id6739490240',
+    android: 'https://play.google.com/store/apps/details?id=ai.jggl.app'
+  },
   // Index page at / listing all hypotheses with their audience and metric. noindex, but it is public on a public deploy.
   // Set BUILD_HUB=0 to leave it out.
   buildHub: process.env.BUILD_HUB !== '0',

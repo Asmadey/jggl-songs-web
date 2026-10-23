@@ -96,7 +96,7 @@ const songs = [
 const features = [
   {
     id: 'voices', img: '/img/features/voices.webp',
-    title: L('Songs in your own voice', 'Песни твоим голосом'),
+    title: L('Record own voice', 'Запиши свой голос'),
     text: L('Talk for a moment to record your voice, and JGGL sings the track in it.', 'Немного поговори, чтобы записать голос, и JGGL споёт трек твоим голосом.')
   },
   {
@@ -187,6 +187,10 @@ const ui = {
   genresLabel: L('Genres', 'Жанры'),
   playTrack: L('Play', 'Играть'),
   seek: L('Seek', 'Перемотка'),
+  appText: L('Get the JGGL app and turn your words into a song anywhere.', 'Установи приложение JGGL и превращай слова в песню где угодно.'),
+  storeIosSmall: L('Download on the', 'Загрузить в'),
+  storeAndroidSmall: L('Get it on', 'Доступно в'),
+  webLink: L('Or try it in your browser', 'Или попробуй в браузере'),
   verseCopied: L('We copied your verse. Paste it on the next screen.', 'Мы скопировали твой куплет. Вставь его на следующем экране.'),
   pickOne: L('Pick one', 'Выбери'),
   hubTitle: L('Songs landing: hypotheses', 'Лендинг для песен: гипотезы')
