@@ -15,8 +15,8 @@ module.exports = [
     hero: {
       eyebrow: L('YOUR WORDS. YOUR VOICE.', 'ТВОИ СЛОВА. ТВОЙ ГОЛОС.'),
       title: L('Your lyrics, sung in <span>your own voice</span>', 'Твои стихи — песней, <span>твоим голосом</span>'),
-      sub: L("Bring the words you've carried for years. Record 30 seconds of your voice, and JGGL turns them into a finished song you can share with family.",
-             'Принеси слова, которые носишь годами. Запиши 30 секунд голоса, и JGGL превратит их в готовую песню, которой можно поделиться с семьёй.'),
+      sub: L("Bring the words you've carried for years. Record 30 seconds of your voice, and JGGL turns them into a finished song.",
+             'Принеси слова, которые носишь годами. Запиши 30 секунд голоса, и JGGL превратит их в готовую песню.'),
       mode: 'verse',
       verseLabel: L('Paste a verse or a few lines', 'Вставь куплет или пару строк'),
       versePlaceholder: L('Paste a verse here, or just start typing…', 'Вставь куплет сюда или просто начни писать…'),
