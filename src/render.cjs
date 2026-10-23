@@ -271,11 +271,11 @@ function renderExperiment(exp, cfg) {
       <ul class="benefits">${benefitHtml}</ul>
     </section>`}
 
-    <section class="trust wrap" aria-labelledby="trust-title">
+    ${hide('trust') ? '' : `    <section class="trust wrap" aria-labelledby="trust-title">
       <div class="eyebrow"><span${a(C.ui.trustEyebrow)}>${C.ui.trustEyebrow.en}</span></div>
       <h2 id="trust-title" class="sr-only"${a(C.ui.trustEyebrow)}>${C.ui.trustEyebrow.en}</h2>
       <div class="trust-grid">${trustHtml}</div>
-    </section>
+    </section>`}
 
     ${hide('faq') ? '' : `    <section class="faq wrap" aria-labelledby="faq-title">
       <div class="eyebrow"><span${a(C.ui.faqEyebrow)}>${C.ui.faqEyebrow.en}</span></div>

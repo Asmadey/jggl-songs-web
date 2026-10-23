@@ -47,7 +47,7 @@ module.exports = [
     extraNav: [{ href: '#songs', label: L('Examples', 'Примеры') }],
     finalApp: true,
     finalCovers: ['pop:1', 'latino:0', 'rap:0', 'rnb:0'],
-    hideSections: ['get', 'faq'], // "What you get" and the FAQ are not shown on this page
+    hideSections: ['get', 'faq', 'trust'], // "What you get" and the FAQ are not shown on this page
     pains: ['voice', 'edit', 'redo'],
     steps: null,
     catalogDefault: 'pop',
