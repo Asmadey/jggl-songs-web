@@ -30,6 +30,8 @@ module.exports = [
         L('a pop melody', 'как поп-хит')
       ],
       sticker: L('Sung in your own voice', 'Поёт твой голос'),
+      stickerIcon: 'sing',
+      hideBottom: true, // no genre line with the play icon under the form on this page
       footnote: null
     },
     // 'tracks' = real tracks in a genre slider; 'features' = product benefits instead of the pain -> answer block.

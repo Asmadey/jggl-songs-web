@@ -269,7 +269,6 @@ blockquote.instr{font-style:italic;color:var(--muted)}
 .caret{display:inline-block;width:3px;height:.82em;margin-left:6px;background:var(--orange);vertical-align:-.06em;animation:blink 1.05s steps(1) infinite}
 .caret.typing{animation:none;opacity:1}
 @keyframes blink{50%{opacity:0}}
-.hero h1{min-height:2.2em}
 
 /* ---------- product benefits ---------- */
 .features{border-top:1px solid var(--line);margin-top:var(--section)}
@@ -312,5 +311,26 @@ blockquote.instr{font-style:italic;color:var(--muted)}
   .hero-stage.square .hero-reel:nth-child(1){top:92px}
   .hero-stage.square .hero-reel:nth-child(2){top:34px}
   .hero-stage.square .hero-reel:nth-child(3){top:104px}
-  .hero h1{min-height:2.3em}
 }
+
+/* ---------- hero layout stays put while the headline types and while the language changes ---------- */
+/* The headline always reserves three lines (RU wraps to three on wide screens, EN to two), so the cover stack never jumps. */
+.hero h1.rotating{min-height:3.3em}
+/* The "verse copied" note floats under the form instead of pushing the hero taller. */
+.verse-form{position:relative}
+.verse-note{position:absolute;left:0;top:calc(100% + 8px)}
+
+/* ---------- singing microphone in the hero sticker ---------- */
+.hero-sticker.sticker-sing{padding:10px 22px 10px 14px;gap:12px;font-size:16px}
+.sing{width:68px;height:46px;flex-shrink:0;overflow:visible}
+.sing .mic rect{fill:var(--orange)}
+.sing .hold,.sing .wv,.sing .note path{fill:none;stroke:#ffb084;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sing .note ellipse{fill:#ffb084}
+.sing .mic{transform-box:fill-box;transform-origin:center;animation:micpulse 1.4s ease-in-out infinite}
+.sing .wv{opacity:0;transform-box:fill-box;transform-origin:left center;animation:voicewave 1.4s ease-out infinite}
+.sing .w2{animation-delay:.22s}.sing .w3{animation-delay:.44s}
+.sing .note{opacity:0;transform-box:fill-box;transform-origin:center;animation:notefloat 2.4s ease-out infinite}
+.sing .n2{animation-delay:1.2s}
+@keyframes micpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes voicewave{0%{opacity:0;transform:translateX(-3px) scale(.8)}30%{opacity:1}100%{opacity:0;transform:translateX(4px) scale(1.12)}}
+@keyframes notefloat{0%{opacity:0;transform:translate(0,8px) rotate(-8deg)}20%{opacity:1}100%{opacity:0;transform:translate(9px,-16px) rotate(12deg)}}

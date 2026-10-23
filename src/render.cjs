@@ -23,6 +23,13 @@ const iconLinks = `<link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">`;
 
+// Singing microphone for the hero sticker: voice waves pulse out and two notes float up (CSS keyframes in styles.css).
+const singIcon = `<svg class="sing" viewBox="0 0 44 30" aria-hidden="true">
+  <g class="mic"><rect x="5" y="4" width="9" height="15" rx="4.5"/><path class="hold" d="M2.500 14.500c0 4.200 3.100 7.500 7 7.500s7-3.300 7-7.500M9.500 22v4"/></g>
+  <path class="wv w1" d="M19 10c2 2.500 2 7.500 0 10"/><path class="wv w2" d="M23 7.500c3.200 4 3.200 11 0 15"/><path class="wv w3" d="M27 5c4.400 5.500 4.400 14.500 0 20"/>
+  <g class="note n1"><ellipse cx="33" cy="22" rx="2.600" ry="2"/><path d="M35.600 22V13l3.400 1.400"/></g>
+  <g class="note n2"><ellipse cx="38" cy="26" rx="2.200" ry="1.700"/><path d="M40.200 26v-7.500l2.800 1.200"/></g>
+</svg>`;
 const spark = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2Z"/></svg>';
 
 function wave(seed, bars = 28) {
@@ -191,14 +198,14 @@ function renderExperiment(exp, cfg) {
     <section class="hero wrap" aria-labelledby="hero-title">
       <div class="hero-copy">
         <div class="eyebrow"><span class="orange-line"></span><span${a(h.eyebrow)}>${h.eyebrow.en}</span></div>
-        <h1 id="hero-title"${a(h.title)}>${h.title.en}</h1>
+        <h1 id="hero-title"${h.rotate ? ' class="rotating"' : ''}${a(h.title)}>${h.title.en}</h1>
         <p class="hero-sub"${a(h.sub)}>${esc(h.sub.en)}</p>
         ${heroAction}
-        <div class="hero-bottom"><span class="mini-play">▶</span><span${a(bottom)}>${bottom.en}</span></div>
+        ${h.hideBottom ? '' : `<div class="hero-bottom"><span class="mini-play">▶</span><span${a(bottom)}>${bottom.en}</span></div>`}
       </div>
       <div class="hero-stage${tracksMode ? ' square' : ''}" aria-label="Example songs">
         ${tracksMode ? h.cards.map(trackHero).join('') : h.cards.map(heroCard).join('')}
-        <div class="hero-sticker"><b>●</b><span${a(h.sticker)}>${esc(h.sticker.en)}</span></div>
+        <div class="hero-sticker${h.stickerIcon === 'sing' ? ' sticker-sing' : ''}">${h.stickerIcon === 'sing' ? singIcon : '<b>●</b>'}<span${a(h.sticker)}>${esc(h.sticker.en)}</span></div>
       </div>
     </section>
 
