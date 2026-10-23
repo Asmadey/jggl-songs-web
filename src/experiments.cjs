@@ -42,11 +42,10 @@ module.exports = [
     catalog: 'tracks',
     features: true,
     stepsVisual: true, // animated step cards instead of the plain three-column list
-    // Closing block: app download buttons (as on suno.com) with a few covers around the panel.
+    // Closing block: app download buttons (as on suno.com).
     // Extra header tab: "Examples" jumps to the "From a notebook to a song." tracks section.
     extraNav: [{ href: '#songs', label: L('Examples', 'Примеры') }],
     finalApp: true,
-    finalCovers: ['pop:1', 'latino:0', 'rap:0', 'rnb:0'],
     hideSections: ['get', 'faq', 'trust'], // "What you get" and the FAQ are not shown on this page
     pains: ['voice', 'edit', 'redo'],
     steps: null,

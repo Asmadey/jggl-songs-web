@@ -164,7 +164,6 @@ function renderExperiment(exp, cfg) {
   const stepHtml = steps.map((s, k) => `<div class="how-step"><span class="step-number">0${k + 1}</span><h3${a(s.title)}>${esc(s.title.en)}</h3><p${a(s.text)}>${esc(s.text.en)}</p></div>`).join('');
   const finalAppHtml = `<section class="final-app wrap" aria-labelledby="final-title">
       <div class="app-panel">
-        ${(exp.finalCovers || []).map((ref, k) => { const t = byRef(ref); return `<img class="fc fc${k + 1}" src="${t.cover}" width="459" height="459" loading="lazy" decoding="async" alt="">`; }).join('')}
         <div class="app-body">
           <img class="app-icon" src="/icon-192.png" width="96" height="96" alt="JGGL">
           <h2 id="final-title"${a(exp.finalTitle)}>${esc(exp.finalTitle.en)}</h2>
